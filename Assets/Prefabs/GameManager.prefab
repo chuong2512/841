@@ -1,0 +1,84 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!1 &3798261246928026878
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 3798261246928026872}
+  - component: {fileID: 3798261246928026879}
+  m_Layer: 0
+  m_Name: GameManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &3798261246928026872
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3798261246928026878}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &3798261246928026879
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3798261246928026878}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d932c471838dbcf4aa325aeca1d469e5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  characterParent: {fileID: 0}
+  player: {fileID: 0}
+  characterParentGroup: {fileID: 0}
+  mainCamera: {fileID: 0}
+  bullet: {fileID: 8331299908443158359, guid: 775e96fd828d1c046a74ce833a36d476, type: 3}
+  GeneralUiElements: {fileID: 0}
+  castleAnimator: {fileID: 0}
+  dianoAnim: {fileID: 0}
+  castleVanishingPoint: {fileID: 0}
+  castleCameraPoint: {fileID: 0}
+  cannonShootPoint: {fileID: 0}
+  characterEndReachPoint: {fileID: 0}
+  characterColors:
+  - {fileID: 2100000, guid: 54381097c34541b4ea062e004292894d, type: 2}
+  - {fileID: 2100000, guid: 7edaac3f659003d408c6fec41ca65f15, type: 2}
+  - {fileID: 2100000, guid: 7c3dba33dfb03a74d95478ce980a5625, type: 2}
+  playersList: []
+  characterMove: 0
+  characterMoveDead: 0
+  dragControl: 0
+  cameraFollow: 0
+  moveCamera: 0
+  fire: 0
+  startCannonRotation: 0
+  totalEnemies: 5
+  enemiesDied: 0
+  bullets: 0
+  time: 0.35
+  playerProgressBar: {fileID: 0}
+  enemyProgressBar: {fileID: 0}
+  playerNumber: {fileID: 0}
+  enemyNumber: {fileID: 0}
+  levelComplete: {fileID: 0}
+  levelFail: {fileID: 0}
+  swipe: {fileID: 0}
+  addEffect: {fileID: 2696008018170088585, guid: 93f0ad8be674107408bdc973786e4220,
+    type: 3}
+  dieEffext: {fileID: 934660905495330791, guid: 09d57abfec6aac743bca9bbfb43728c1,
+    type: 3}
