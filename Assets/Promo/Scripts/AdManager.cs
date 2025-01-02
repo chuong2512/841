@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using System;
 using UnityEngine.Advertisements;
+
 //using GoogleMobileAds.Api;
 
 public class AdManager : MonoBehaviour
@@ -16,39 +17,50 @@ public class AdManager : MonoBehaviour
         video,
         newXml
     }
-   // public bool forreward;
-   // [Header("Next Scene To Load")]
-   // private int NextSceneToload = 1;
+
+    // public bool forreward;
+    // [Header("Next Scene To Load")]
+    // private int NextSceneToload = 1;
     // private int NextSceneToload;
-   // public float timetoload;
-    [Header("XML Url")]
-    public string AllCommonUrl;
+    // public float timetoload;
+    [Header("XML Url")] public string AllCommonUrl;
     private bool IsMenuAdOpened;
     public bool IsPortrait;
+
     public bool IsMenuLoaded = false;
+
     //public string MenuAdUrl = "";
     //[Header("Portrait")]
     public bool Hint;
+
     public int count;
+
     //[HideInInspector]
     public List<Sprite> MgImgList = new List<Sprite>();
+
     //[HideInInspector]
     public List<string> MgImgLinkList = new List<string>();
+
     //[HideInInspector]
     public List<string> MgLinkToList = new List<string>();
+
     //[Header("icon")]
     //	[HideInInspector]
     public List<Sprite> Iconlist = new List<Sprite>();
+
     //[HideInInspector]
     public List<string> IconLinkList = new List<string>();
+
     //[HideInInspector]
     public List<string> IconToList = new List<string>();
 
     //[Header("landscape")]
     //[HideInInspector]
     public List<Sprite> LandList = new List<Sprite>();
+
     //	[HideInInspector]
     public List<string> LandLinkList = new List<string>();
+
     //	[HideInInspector]
     public List<string> LandToList = new List<string>();
     public static AdManager instance;
@@ -68,10 +80,8 @@ public class AdManager : MonoBehaviour
             DontDestroyOnLoad(gameObject);
             instance = this;
         }
-        Advertisement.Initialize(UnityGameID, true);
-
-
     }
+
     void OnEnable()
     {
         switch (channelName)
@@ -89,11 +99,10 @@ public class AdManager : MonoBehaviour
                 AllCommonUrl = "https://petgamesfree.s3.ap-south-1.amazonaws.com/Video.xml";
                 break;
             case ChannelName.newXml:
-                AllCommonUrl = "https://hypercausualgamesfree.s3.ap-south-1.amazonaws.com/hypercausualgames/snakegame.xml";
+                AllCommonUrl =
+                    "https://hypercausualgamesfree.s3.ap-south-1.amazonaws.com/hypercausualgames/snakegame.xml";
                 break;
-
         }
-
     }
 
     // Use this for initialization
@@ -101,7 +110,6 @@ public class AdManager : MonoBehaviour
     {
         gameObject.name = "AdManager";
         StartCoroutine(ShowBannerWhenInitialized());
-        Advertisement.Banner.SetPosition(BannerPosition.BOTTOM_CENTER);
     }
 
     IEnumerator LoadNextScene(float delay)
@@ -117,11 +125,13 @@ public class AdManager : MonoBehaviour
         {
             yield break;
         }
+
         Debug.Log("-------- CallToOpenMenuScene IsFromXml=" + IsFromXml);
         //	Loading.SetActive (true);
         CancelInvoke("OpenMenuScene");
         IsMenuLoaded = true;
     }
+
     public bool isWifi_OR_Data_Availble()
     {
         if (Application.internetReachability == NetworkReachability.ReachableViaCarrierDataNetwork
@@ -134,16 +144,19 @@ public class AdManager : MonoBehaviour
             return false;
         }
     }
+
     public void showBiGPromot()
     {
         StartCoroutine(MenuAdPage.instance.LoadImg());
     }
+
     public void showadPromo()
     {
         StartCoroutine(MenuAdPage.instance.ShowAdInGamea());
     }
-    [Header("Unity ID")]
-    [SerializeField] string UnityGameID = "33675";
+
+    [Header("Unity ID")] [SerializeField] string UnityGameID = "33675";
+
     public void ShowAd(string zone = "")
     {
 #if UNITY_EDITOR
@@ -152,70 +165,25 @@ public class AdManager : MonoBehaviour
 
         if (string.Equals(zone, ""))
             zone = null;
-
-        ShowOptions options = new ShowOptions();
-        options.resultCallback = AdCallbackhandler;
-
-        if (Advertisement.IsReady(zone))
-        {
-            Advertisement.Show(zone, options);
-        }
-        else
-        {
-            //showRewardVideo ();
-        }
     }
+
     public bool skipe;
-    void AdCallbackhandler(ShowResult result)
-    {
-        switch (result)
-        {
-            case ShowResult.Finished:
-                if (Hint)
-                {
-                    //  FindObjectOfType<ButtonCanvas>().HintInstantiate();
-                    Hint = false;
-                }
-                if (skipe)
-                {
-                    // FindObjectOfType<ButtonCanvas>().Skip();
-                    skipe = false;
-                }
-                Debug.Log("Ad Finished. Rewarding player...");
-                break;
-            case ShowResult.Skipped:
-                skipe = false;
-                Hint = false;
-                // FindObjectOfType<UI_manager>().RewardSkipped();
-                Debug.Log("Ad skipped. Son, I am dissapointed in you");
-                break;
-            case ShowResult.Failed:
-                skipe = false;
-                Hint = false;
-                //FindObjectOfType<UI_manager>().RewardSkipped();
-                Debug.Log("I swear this has never happened to me before");
-                break;
-        }
-    }
+
     IEnumerator WaitForAd()
     {
         float currentTimeScale = Time.timeScale;
         Time.timeScale = 0f;
         yield return null;
 
-        while (Advertisement.isShowing)
-            yield return null;
+
+        yield return null;
 
         Time.timeScale = currentTimeScale;
     }
 
     IEnumerator ShowBannerWhenInitialized()
     {
-        while (!Advertisement.isInitialized)
-        {
-            yield return new WaitForSeconds(0.5f);
-        }
-        Advertisement.Banner.Show(placementId);
+        yield return new WaitForSeconds(0.5f);
     }
 
     //[Header("Admob Id")]

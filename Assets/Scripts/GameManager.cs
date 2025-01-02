@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using TMPro;
+using UnityEngine.EventSystems;
 
 public class GameManager : MonoBehaviour
 {
@@ -10,11 +11,13 @@ public class GameManager : MonoBehaviour
 
     [Header("All required scripts by GM are here")]
     public CharacterParent characterParent;
+
     public Player player;
 
 
     [Header("Drag gameobjects of scene here")]
     public GameObject characterParentGroup;
+
     public GameObject mainCamera;
     public GameObject bullet;
     public GameObject GeneralUiElements;
@@ -28,14 +31,12 @@ public class GameManager : MonoBehaviour
     public Transform characterEndReachPoint;
 
 
-    [Header("Lists goes here")]
-    public List<Material> characterColors;
+    [Header("Lists goes here")] public List<Material> characterColors;
     public List<GameObject> playersList;
     public List<Material> trailEffects;
 
 
-    [Header("All Booleans are here")]
-    public bool characterMove;
+    [Header("All Booleans are here")] public bool characterMove;
     public bool characterMoveDead;
     public bool dragControl;
     public bool cameraFollow;
@@ -45,12 +46,12 @@ public class GameManager : MonoBehaviour
 
     [Header("All ints and floats are here")]
     public float totalEnemies;
+
     public float enemiesDied;
     public int bullets;
     public float time;
 
-    [Header("All UI elements goes here")]
-    public Image playerProgressBar;
+    [Header("All UI elements goes here")] public Image playerProgressBar;
     public Image enemyProgressBar;
     public TextMeshProUGUI playerNumber;
     public TextMeshProUGUI enemyNumber;
@@ -58,14 +59,12 @@ public class GameManager : MonoBehaviour
     public GameObject levelFail;
     public GameObject swipe;
 
-    [Header("VFX goes here")]
-    public GameObject addEffect;
+    [Header("VFX goes here")] public GameObject addEffect;
     public GameObject dieEffext;
     public GameObject popParticle1;
     public GameObject popParticle2;
 
-    [Header("Sounds goes here")]
-    public AudioClip addPlayer;
+    [Header("Sounds goes here")] public AudioClip addPlayer;
     public AudioClip diePlayer;
     public AudioClip canonShot;
     public AudioClip win;
@@ -99,7 +98,8 @@ public class GameManager : MonoBehaviour
 
     private void Update()
     {
-        if(Input.GetMouseButtonDown(0) && !characterMove && !characterMoveDead)
+        if (Input.GetMouseButtonDown(0) && !characterMove && !characterMoveDead
+            && !EventSystem.current.IsPointerOverGameObject())
         {
             characterMove = true;
             characterMoveDead = true;
@@ -113,38 +113,37 @@ public class GameManager : MonoBehaviour
         if (fire && Input.GetMouseButton(0))
         {
             timer -= Time.deltaTime;
-            if(timer <= 0)
+            if (timer <= 0)
             {
                 if (counter < playersList.Count)
                 {
                     GameObject bulletObj = Instantiate(bullet, cannonShootPoint.position, cannonShootPoint.rotation);
                     bulletObj.transform.rotation = Quaternion.Euler(58, 0, 0);
-                    canonAnim.Play("Canon fire");                    
-                    CanonShot();                   
+                    canonAnim.Play("Canon fire");
+                    CanonShot();
                     counter++;
                     bullets--;
                     playerNumber.text = bullets.ToString();
                 }
+
                 timer = time;
 
-                if(bullets == 0 && (totalEnemies == enemiesDied))
+                if (bullets == 0 && (totalEnemies == enemiesDied))
                 {
-                    if(endMusicCounter == 0)
+                    if (endMusicCounter == 0)
                     {
                         StartCoroutine(LevelCompleteDelay());
                         Win();
                         endMusicCounter++;
                     }
-                    
                 }
-                else if(bullets == 0 && (totalEnemies != enemiesDied))
+                else if (bullets == 0 && (totalEnemies != enemiesDied))
                 {
                     if (endMusicCounter == 0)
                     {
                         StartCoroutine(LevelFailDelay());
                         endMusicCounter++;
                     }
-                    
                 }
             }
         }
@@ -154,21 +153,20 @@ public class GameManager : MonoBehaviour
             characterParent.Move();
         }
 
-        if(touchedFinishLine)
+        if (touchedFinishLine)
         {
             InToTheCastle();
         }
 
-        if(moveCamera)
+        if (moveCamera)
         {
             MoveCamera();
         }
-
     }
 
     public void CharacterParentCheck()
     {
-        if(playersList.Count == 0)
+        if (playersList.Count == 0)
         {
             characterMove = false;
             characterMoveDead = true;
@@ -187,9 +185,10 @@ public class GameManager : MonoBehaviour
 
     public void InToTheCastle()
     {
-        if(Vector3.Distance(characterParentGroup.transform.position, castleVanishingPoint.position) > 0.2f)
+        if (Vector3.Distance(characterParentGroup.transform.position, castleVanishingPoint.position) > 0.2f)
         {
-            characterParentGroup.transform.position = Vector3.MoveTowards(characterParentGroup.transform.position, castleVanishingPoint.position, 15 * Time.deltaTime);
+            characterParentGroup.transform.position = Vector3.MoveTowards(characterParentGroup.transform.position,
+                castleVanishingPoint.position, 15 * Time.deltaTime);
         }
         else
         {
@@ -197,6 +196,7 @@ public class GameManager : MonoBehaviour
             {
                 playersList[i].gameObject.GetComponent<Animator>().SetInteger("Player", 0);
             }
+
             touchedFinishLine = false;
         }
     }
@@ -207,9 +207,10 @@ public class GameManager : MonoBehaviour
 
         if (Vector3.Distance(mainCamera.transform.position, castleCameraPoint.position) > 0.2f)
         {
-
-            mainCamera.transform.position = Vector3.MoveTowards(mainCamera.transform.position, castleCameraPoint.position, 50 * Time.deltaTime);                        
-            mainCamera.transform.rotation = Quaternion.Lerp(mainCamera.transform.rotation, Quaternion.Euler(8.244f, 0, 0), 2 * Time.deltaTime);
+            mainCamera.transform.position = Vector3.MoveTowards(mainCamera.transform.position,
+                castleCameraPoint.position, 50 * Time.deltaTime);
+            mainCamera.transform.rotation = Quaternion.Lerp(mainCamera.transform.rotation,
+                Quaternion.Euler(8.244f, 0, 0), 2 * Time.deltaTime);
         }
         else
         {
@@ -223,9 +224,9 @@ public class GameManager : MonoBehaviour
             {
                 playersList[i].gameObject.SetActive(false);
             }
+
             enemyProgressBar.transform.parent.gameObject.SetActive(true);
         }
-
     }
 
     void EnemyProgress()
@@ -247,16 +248,17 @@ public class GameManager : MonoBehaviour
 
     public void TouchedFinishline()
     {
-        if(touchedFinishlineInteger == 0)
+        if (touchedFinishlineInteger == 0)
         {
             ReachCastle();
             touchedFinishlineInteger++;
         }
+
         castleAnimator.SetInteger("Door", 1);
         characterMove = false;
         dragControl = false;
         touchedFinishLine = true;
-        cameraFollow = false; 
+        cameraFollow = false;
         StartCoroutine(CloseTheDoor());
     }
 
@@ -324,7 +326,6 @@ public class GameManager : MonoBehaviour
         popParticle2.SetActive(true);
         levelComplete.SetActive(true);
         Canvas.instance.Activate_Privacy_Policy();
-
     }
     //---------------------------Delay---------------------------
 }

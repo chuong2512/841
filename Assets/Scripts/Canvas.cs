@@ -46,14 +46,14 @@ public class Canvas : MonoBehaviour
     }
     public void PrivacyPolicy()
     {
-        Application.OpenURL("https://unconditionalgames.blogspot.com/2020/01/privacy-policy-this-privacy-policy.html");
+       // Application.OpenURL("https://unconditionalgames.blogspot.com/2020/01/privacy-policy-this-privacy-policy.html");
     }
     public void Activate_Privacy_Policy()
     {
-        Privacy_Policy.SetActive(true);
+       // Privacy_Policy.SetActive(true);
     }
     public void deactivate_PP()
     {
-        Privacy_Policy.SetActive(false);
+       // Privacy_Policy.SetActive(false);
     }
 }
